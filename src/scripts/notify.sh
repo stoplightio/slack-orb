@@ -184,7 +184,7 @@ CheckEnvVars() {
 }
 
 ShouldPost() {
-    if [ "$SEND_SUCCESS_RELEASE_NOTIFICATION" = true ] && [ "$CCI_STATUS" = "pass"  ] && [ "$SLACK_PARAM_EVENT" = "success_release" ]; then
+    if [ "$SEND_SUCCESS_RELEASE_NOTIFICATION" = 1 ] && [ "$CCI_STATUS" = "pass"  ] && [ "$SLACK_PARAM_EVENT" = "success_release" ]; then
         # In the event the Slack notification would be sent, first ensure it is allowed to trigger
         # on this branch or this tag.
         FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
