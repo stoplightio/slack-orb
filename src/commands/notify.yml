@@ -23,9 +23,9 @@ parameters:
     default: ""
   event:
     description: |
-      In what event should this message send? Options: ["fail", "pass", "always"]
+      In what event should this message send? Options: ["fail", "pass", "always", "notify_destroy", "success_release"]
     type: enum
-    enum: ["fail", "pass", "always", "notify_destroy"]
+    enum: ["fail", "pass", "always", "notify_destroy", "success_release"]
     default: "always"
   branch_pattern:
     description: |
