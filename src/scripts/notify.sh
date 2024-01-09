@@ -184,7 +184,15 @@ CheckEnvVars() {
 }
 
 ShouldPost() {
-    if [ "$CCI_STATUS" = "$SLACK_PARAM_EVENT" ] || [ "$SLACK_PARAM_EVENT" = "always" ]; then
+    if [ "$SEND_SUCCESS_RELEASE_NOTIFICATION" = true ] && [ "$CCI_STATUS" = "pass"  ]; then
+        # In the event the Slack notification would be sent, first ensure it is allowed to trigger
+        # on this branch or this tag.
+        FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
+        FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
+
+        echo "Posting Status"
+
+    elif [ "$CCI_STATUS" = "$SLACK_PARAM_EVENT" ] || [ "$SLACK_PARAM_EVENT" = "always" ]; then
         # In the event the Slack notification would be sent, first ensure it is allowed to trigger
         # on this branch or this tag.
         FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
@@ -192,13 +200,6 @@ ShouldPost() {
 
         echo "Posting Status"
     elif [ "$SLACK_PARAM_EVENT" = "notify_destroy" ] && [ "$SEND_TF_DESTROY_NOTIFICATION" = true ]; then
-        # In the event the Slack notification would be sent, first ensure it is allowed to trigger
-        # on this branch or this tag.
-        FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
-        FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
-
-        echo "Posting Status"
-    elif [ "$SLACK_PARAM_EVENT" = "success_release" ] && [ "$SEND_SUCCESS_RELEASE_NOTIFICATION" = true ]; then
         # In the event the Slack notification would be sent, first ensure it is allowed to trigger
         # on this branch or this tag.
         FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
