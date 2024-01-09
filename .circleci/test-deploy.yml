@@ -46,13 +46,14 @@ jobs:
           shell: /bin/bash -xo pipefail
           command: |
             echo "export SEND_TF_DESTROY_NOTIFICATION=true" >> $BASH_ENV
+            echo "export SEND_SUCCESS_RELEASE_NOTIFICATION=true" >> $BASH_ENV
       - slack/notify:
           channel: slack-notify
           event: always
           template: rollback_failure
       - slack/notify:
           channel: slack-notify
-          event: always
+          event: success_release
           template: success_release
       - slack/notify:
           channel: slack-notify

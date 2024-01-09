@@ -198,6 +198,13 @@ ShouldPost() {
         FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
 
         echo "Posting Status"
+    elif [ "$SLACK_PARAM_EVENT" = "success_release" ] && [ "$SEND_SUCCESS_RELEASE_NOTIFICATION" = true ]; then
+        # In the event the Slack notification would be sent, first ensure it is allowed to trigger
+        # on this branch or this tag.
+        FilterBy "$SLACK_PARAM_BRANCHPATTERN" "${CIRCLE_BRANCH:-}"
+        FilterBy "$SLACK_PARAM_TAGPATTERN" "${CIRCLE_TAG:-}"
+
+        echo "Posting Status"
     else
         # dont send message.
         echo "NO SLACK ALERT"
